@@ -1,6 +1,11 @@
 <div class="attachments">
-<% for attachment in attachments %>
-<p><%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
+<% attachments.each do |attachment| -%>
+<% if attachment.image? -%>
+    <p><%= link_to image_tag(url_for({:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename }), :width => '180'), 
+		{:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename }, :class => 'lightbox', :rel => 'attachments', :title => "#{attachment.filename}#{ ('-' + attachment.description) unless attachment.description.blank? }" %>
+<% else -%>
+<p><%= link_to attachment.filename, {:controller => 'attachments', :action => 'download', :id => attachment }, :class => 'icon icon-attachment' %>
+<% end -%>
 <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
   <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
   <% if options[:deletable] %>
@@ -15,13 +20,5 @@
   <% end %>
   </p>
 <% end %>
-
-<div class='images'>
-	<% for attachment in attachments.select { |a| /(.jpg|.jpeg|.gif|.png|.bmp)$/i =~ a.filename } %>
-		<%= link_to image_tag(url_for({:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename }), :width => '180'), 
-		{:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename }, :class => 'lightbox', :rel => 'attachments', :title => "#{attachment.filename}#{ ('-' + attachment.description) unless attachment.description.blank? }" %>
-	<% end -%>
-</div>
-
 </div>
 
