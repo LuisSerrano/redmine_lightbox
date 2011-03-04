@@ -3,15 +3,13 @@
 <% if attachment.image? -%>
     <p><%= link_to image_tag(url_for({:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename }), :width => '180'), 
 		{:controller => 'attachments', :action => 'show', :id => attachment, :filename => attachment.filename }, :class => 'lightbox', :rel => 'attachments', :title => l(:button_view) %>
-<%= h("#{attachment.filename}") unless attachment.filename.blank? %>
+    <%= h("#{attachment.filename}") unless attachment.filename.blank? %>
 <% else -%>
    <% if( attachment.filename =~ /.pdf$/i )  %>
       <p><%= link_to image_tag('pdf.png', :plugin => 'redmine_lightbox', :width => '40'), {:controller =>     'attachments', :action => 'show', :id => attachment, :filename => attachment.filename }, :class =>  "pdf", :rel => 'attachments',  :title => l(:button_view) -%>
    <%= link_to attachment.filename, {:controller => 'attachments', :action => 'download', :id => attachment}, :title => l(:button_download) %>
-   
-   <% else -%>
-
-<p><%= link_to attachment.filename, {:controller => 'attachments', :action => 'download', :id => attachment }, :class => 'icon icon-attachment' %>
+    <% else -%>
+    <p><%= link_to attachment.filename, {:controller => 'attachments', :action => 'download', :id => attachment }, :class => 'icon icon-attachment' %>
 <% end -%>
   <% end %>
 <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
